@@ -1,16 +1,33 @@
-var topics = ["Feminism", "Gender", "Equalism", "Everything", "Chauvinism"];
-var themes = [];
+var topics = ["Feminism", "Gender", "Equalism", "Everything", "Chauvinism", "Gender identity", "Asexuality"];
+var templates = ["argument.mst", "complaint.mst", "hate.mst"];
+var random = ["Rhinoceros", "Octopus", "Tyrannosaurus rex", "Raptor", "Vacuum Cleaner", "Hippopotamus"];
 
-function loadGameTemplate() {
-  $.get('argument.mst', function(template) {
-  	var tts = new GoogleTTS();
-
+function loadArgumentTemplate() {
+  $.get(randomItem(templates), function(template) {
     var rendered = Mustache.render(template, {
-     topic: randomTopic()
+     topic: randomTopic(),
+     random: randomItem(random)
      });
-    tts.play(rendered);
-    ;
-  });
+	var msg = new SpeechSynthesisUtterance();
+	var voices = speechSynthesis.getVoices();
+	//console.log(voices);
+	//msg.voice = voices[2]; // Note: some voices don't support altering params
+	//msg.voice = voices[Math.floor(Math.random()*11)]; // Note: some voices don't support altering params
+	//console.log([Math.floor(Math.random()*11)]);
+	//msg.voiceURI = 'native';
+	//msg.volume = 1; // 0 to 1
+	//msg.rate = 1; // 0.1 to 10
+	//msg.pitch = 0; //0 to 2
+	msg.text = rendered;
+	msg.lang = 'en-US';
+
+	msg.onend = function(e) {
+	  console.log('Finished in ' + event.elapsedTime + ' seconds.');
+	};
+
+	speechSynthesis.speak(msg);
+	//loadArgumentTemplate();
+	});
 }
 
 function randomTopic(){
@@ -41,4 +58,4 @@ function nRandomTopics(array,n){
 	return objectItems;
 }
 
-loadGameTemplate();
+loadArgumentTemplate();
