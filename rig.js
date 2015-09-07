@@ -1,13 +1,28 @@
-var topics = ["Feminism", "Gender", "Equalism", "Everything", "Chauvinism", "Gender identity", "Asexuality"];
-var templates = ["argument.mst", "complaint.mst", "hate.mst"];
-var random = ["Rhinoceros", "Octopus", "Tyrannosaurus rex", "Raptor", "Vacuum Cleaner", "Hippopotamus"];
+var topics = ["feminism", "gender", "equalism", "everything", "chauvinism", "gender identity", "sexism"];
+var templates = ["argument.mst", "complaint.mst", "hate.mst", "fakestats.mst"];
+var random = ["rhinoceros", "octopus", "tyrannosaurus rex", "raptor", "vacuum Cleaner", "hippopotamus"];
+var groupPlural = ["feminists", "gays", "lesbians", "transsexuals", "asexuals", "men", "women"];
+var group = ["feminist", "gay", "lesbian", "transsexual", "asexual", "men", "women"];
+var leadUps = ["did you know that", "actually", "I'll have you know that", 
+"don't you know that", "how don't you understand that", "I saw a Youtube video that said that"];
+var bullshitWords = ["Actually", "In fact"]
 
 function loadArgumentTemplate() {
   $.get(randomItem(templates), function(template) {
+  	var percentage = Math.floor((Math.random() * 110));
+
+  	console.log(percentage)
+
     var rendered = Mustache.render(template, {
      topic: randomTopic(),
-     random: randomItem(random)
+     random: randomItem(random),
+     groupPlural: randomItem(groupPlural),
+     otherGroupPlural: randomItem(groupPlural),
+     group: randomItem(group),
+     leadUp: randomItem(leadUps),
+     percent: percentage
      });
+    rendered = rendered.replace("&#39;", "'");
 	var msg = new SpeechSynthesisUtterance();
 	var voices = speechSynthesis.getVoices();
 	//console.log(voices);
@@ -20,6 +35,8 @@ function loadArgumentTemplate() {
 	//msg.pitch = 0; //0 to 2
 	msg.text = rendered;
 	msg.lang = 'en-US';
+
+	console.log(rendered);
 
 	msg.onend = function(e) {
 	  console.log('Finished in ' + event.elapsedTime + ' seconds.');
