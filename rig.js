@@ -1,11 +1,15 @@
 var topics = ["feminism", "gender", "equalism", "everything", "chauvinism", "gender identity", "sexism"];
-var templates = ["argument.mst", "complaint.mst", "hate.mst", "fakestats.mst"];
-var random = ["rhinoceros", "octopus", "tyrannosaurus rex", "raptor", "vacuum Cleaner", "hippopotamus"];
-var groupPlural = ["feminists", "gays", "lesbians", "transsexuals", "asexuals", "men", "women"];
-var group = ["feminist", "gay", "lesbian", "transsexual", "asexual", "men", "women"];
+var templates = ["complaint.mst", "hate.mst", "fakestats.mst", "important.mst", "everything.mst", "ruined.mst"];
+var random = ["rhinoceros", "octopus", "tyrannosaurus rex", "raptor", "vacuum cleaner", "hippopotamus"];
+var groupPlural = ["feminists", "gays", "lesbians", "transgenders", "men", "women"];
+var group = ["feminist", "gay", "lesbian", "transgender", "asexual", "men", "women"];
 var leadUps = ["did you know that", "actually", "I'll have you know that", 
-"don't you know that", "how don't you understand that", "I saw a Youtube video that said that"];
-var bullshitWords = ["Actually", "In fact"]
+"don't you know that", "how don't you understand that", "I saw a Youtube video that said that" , "I read on a blog that"];
+var bullshitWords = ["actually", "in fact" , ""];
+var importantnesses = ["the most important thing", "incredibly important", "very valuable", "essential" , "kind of relevant"];
+var spaces = ["my life", "everyone's lives", "the modern society", "the world", "the internet", "Finland", "the modern world"];
+var becauses = ["is because of", "can be blamed on", "is caused by", "happened because of"];
+var dids = ["ruined", "saved", "destroyed", "fixed"];
 
 function loadArgumentTemplate() {
   $.get(randomItem(templates), function(template) {
@@ -20,19 +24,25 @@ function loadArgumentTemplate() {
      otherGroupPlural: randomItem(groupPlural),
      group: randomItem(group),
      leadUp: randomItem(leadUps),
-     percent: percentage
+     percent: percentage,
+     importantness: randomItem(importantnesses),
+     space: randomItem(spaces),
+     because: randomItem(becauses),
+     bullshit: randomItem(bullshitWords),
+     did: randomItem(dids)
      });
     rendered = rendered.replace("&#39;", "'");
 	var msg = new SpeechSynthesisUtterance();
 	var voices = speechSynthesis.getVoices();
-	//console.log(voices);
-	//msg.voice = voices[2]; // Note: some voices don't support altering params
-	//msg.voice = voices[Math.floor(Math.random()*11)]; // Note: some voices don't support altering params
+	console.log(voices);
+	//msg.voice = voices[Math.floor(Math.random() * 10)]; // Note: some voices don't support altering params
+	msg.voice = voices[Math.floor(Math.random()*11)]; // Note: some voices don't support altering params
 	//console.log([Math.floor(Math.random()*11)]);
-	//msg.voiceURI = 'native';
-	//msg.volume = 1; // 0 to 1
-	//msg.rate = 1; // 0.1 to 10
-	//msg.pitch = 0; //0 to 2
+	msg.voiceURI = 'native';
+	msg.volume = 1; // 0 to 1
+	msg.rate = 1; // 0.1 to 10
+	msg.pitch = 0.2 + Math.random() * 1; //0 to 2
+
 	msg.text = rendered;
 	msg.lang = 'en-US';
 
@@ -75,4 +85,4 @@ function nRandomTopics(array,n){
 	return objectItems;
 }
 
-loadArgumentTemplate();
+var interval = setInterval(loadArgumentTemplate, 2000);
