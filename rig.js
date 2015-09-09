@@ -4,12 +4,15 @@ var random = ["rhinoceros", "octopus", "tyrannosaurus rex", "raptor", "vacuum cl
 var groupPlural = ["feminists", "gays", "lesbians", "transgenders", "men", "women"];
 var group = ["feminist", "gay", "lesbian", "transgender", "asexual", "men", "women"];
 var leadUps = ["did you know that", "actually", "I'll have you know that", 
-"don't you know that", "how don't you understand that", "I saw a Youtube video that said that" , "I read on a blog that"];
+"don't you know that", "how don't you understand that", 
+"I saw a Youtube video that said that" , "I read on a blog that", "based on my research"];
 var bullshitWords = ["actually", "in fact" , ""];
 var importantnesses = ["the most important thing", "incredibly important", "very valuable", "essential" , "kind of relevant"];
 var spaces = ["my life", "everyone's lives", "the modern society", "the world", "the internet", "Finland", "the modern world"];
 var becauses = ["is because of", "can be blamed on", "is caused by", "happened because of"];
 var dids = ["ruined", "saved", "destroyed", "fixed"];
+var feels = ["hate", "don't care about", "really care about", "love", "kind of like"];
+var bads = ["sucks", "is shit", "is horrible", "is stupid"];
 
 function loadArgumentTemplate() {
   $.get(randomItem(templates), function(template) {
@@ -29,7 +32,9 @@ function loadArgumentTemplate() {
      space: randomItem(spaces),
      because: randomItem(becauses),
      bullshit: randomItem(bullshitWords),
-     did: randomItem(dids)
+     did: randomItem(dids),
+     feel: randomItem(feels),
+     bad: randomItem(bads)
      });
     rendered = rendered.replace("&#39;", "'");
 	var msg = new SpeechSynthesisUtterance();
